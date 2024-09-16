@@ -1,7 +1,7 @@
 # llh_to_ecef.py
 #
 # Usage: python3 llh_to_ecef.py lat_deg lon_deg hae_km ...
-#  Text explaining script usage
+# Text explaining script usage
 # Parameters:
 #  lat_deg: geodetic latitude in degrees
 #  lon_deg: longitude in degrees
@@ -22,16 +22,16 @@ import math  # math module
 import sys   # argv
 
 # "constants"
-R_E_KM = 6378.1363
-E_E = 0.081819221456
+R_E_KM = 6378.1363 # radius of Earth in km
+E_E = 0.081819221456 # unitless
 
 # helper functions
 
 # function description
 
-## calculated denominator 
+## calculate denominator 
 def calc_denom(ecc, lat_rad):
-    return math.sqrt(1.0-(ecc**2.0)*(math.sin(lat_rad))**2)
+    return math.sqrt(1.0 - (ecc**2.0) * (math.sin(lat_rad))**2)
 
 # initialize script arguments
 lat_deg = float('nan')  # geodetic latitude (deg)
@@ -51,15 +51,19 @@ else:
     print('Usage: python3 llh_to_ecef.py lat_deg lon_deg hae_km')
     exit()
 
-# write script below this line
+# convert longitude and latitude to degrees
 lat_rad = lat_deg * math.pi / 180.0
 long_rad = long_deg * math.pi / 180.0
+
+# perform calculations to get components of r in ECEF reference frame
 denominator = calc_denom(E_E, lat_rad)
 c_E = R_E_KM / denominator
 s_E = R_E_KM * (1.0 - E_E * E_E) / denominator
 r_x_km = (c_E + hae_km) * math.cos(lat_rad) * math.cos(long_rad)
 r_y_km = (c_E + hae_km) * math.cos(lat_rad) * math.sin(long_rad)
-r_z_km = (s_E + hae_km)* math.sin(lat_rad)
-print('r_x:' + str(r_x_km) + ' km')
-print('r_y:' + str(r_y_km) + ' km')
-print('r_z:' + str(r_z_km) + ' km')
+r_z_km = (s_E + hae_km) * math.sin(lat_rad)
+
+# output results
+print(r_x_km)
+print(r_y_km)
+print(r_z_km)
