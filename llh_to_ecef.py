@@ -51,7 +51,7 @@ else:
     print('Usage: python3 llh_to_ecef.py lat_deg lon_deg hae_km')
     exit()
 
-# convert longitude and latitude to degrees
+# convert longitude and latitude to radians
 lat_rad = lat_deg * math.pi / 180.0
 long_rad = long_deg * math.pi / 180.0
 
